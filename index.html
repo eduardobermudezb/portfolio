@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portafolio de Eduardo Bermúdez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: banco de pruebas oscuro. Un marco con pistas de cobre contiene tres vistas (Sobre mí, Proyectos, Contacto); cada proyecto lleva el símbolo esquemático de su área. */
+:root {
+--bg: #0A0B0D;
+--panel: #111317;
+--raise: #171A1F;
+--line: #262A31;
+--ink: #ECEEF1;
+--muted: #9AA2AD;
+--copper: #8EC9F5;
+--copper-soft: rgba(142, 201, 245, .13);
+--ok: #8DBFA4;
+--font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+--font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+--font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--copper); outline-offset: 3px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 18px; }
+/* Barra */
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 22px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand svg { width: 40px; height: 40px; flex: none; }
+.brand b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; line-height: 1.1; }
+.brand small { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--copper); margin-top: 3px; }
+.lang { display: flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+.lang button { border: 0; background: transparent; color: var(--muted); font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .1em; padding: 6px 11px; border-radius: 999px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--copper); color: #08131F; }
+.tabs { display: flex; justify-content: center; gap: 6px; margin: 26px 0 18px; flex-wrap: wrap; }
+.tabs button { border: 0; background: transparent; cursor: pointer; font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); padding: 8px 14px; border-bottom: 2px solid transparent; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--copper); }
+/* Marco */
+.frame { position: relative; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; }
+.frame::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+background-image: radial-gradient(rgba(142,201,245,.22) 1px, transparent 1.3px); background-size: 14px 14px;
+-webkit-mask-image: radial-gradient(ellipse at center, transparent 58%, #000 100%); mask-image: radial-gradient(ellipse at center, transparent 58%, #000 100%); }
+.frame-in { position: relative; padding: clamp(22px, 5vw, 56px); }
+.corner { position: absolute; width: 18px; height: 18px; border-color: var(--copper); border-style: solid; opacity: .8; }
+.c1 { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+.c2 { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+.c3 { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+.c4 { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+.view[hidden] { display: none; }
+.view { animation: in .35s ease both; }
+@keyframes in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.5rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -.015em; margin: 0 0 22px; }
+h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.12rem; line-height: 1.25; margin: 0; text-wrap: balance; }
+/* Sobre mí */
+.about { display: grid; gap: 34px; grid-template-columns: 1fr; align-items: center; }
+@media (min-width: 880px) { .about { grid-template-columns: 1.35fr .65fr; } }
+.role { font-family: var(--font-display); font-weight: 500; font-size: 1.25rem; color: var(--copper); margin: 14px 0 0; }
+.bio { color: var(--muted); max-width: 62ch; margin: 18px 0 0; font-size: 1.04rem; }
+.chip-art { width: 100%; max-width: 300px; justify-self: center; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 36px; }
+@media (min-width: 720px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { background: var(--panel); padding: 16px 18px; }
+.stat b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 1.9rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat span { font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.award { display: flex; gap: 16px; align-items: center; margin-top: 22px; padding: 16px 18px; border: 1px solid rgba(142,201,245,.45); border-radius: 12px; background: var(--copper-soft); }
+.award svg { width: 38px; height: 38px; flex: none; }
+.award b { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+.award span { color: var(--muted); font-size: .94rem; }
+.events { margin-top: 26px; }
+.events h4, .skill-group h4 { margin: 0 0 10px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--copper); }
+.events ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.events li { display: grid; grid-template-columns: 92px 1fr; gap: 14px; background: var(--panel); padding: 12px 16px; }
+.events li span { font-family: var(--font-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.events li b { font-weight: 500; }
+.events li em { display: block; font-style: normal; color: var(--muted); font-size: .92rem; }
+.skills { margin-top: 40px; display: grid; gap: 22px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .skills { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .skills { grid-template-columns: repeat(3, 1fr); } }
+.skill-group h4 { margin: 0 0 10px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--copper); }
+.tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tags li { font-family: var(--font-mono); font-size: 11.5px; padding: 4px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--raise); }
+/* Proyectos */
+.featured { display: grid; gap: 14px; grid-template-columns: 1fr; margin-bottom: 34px; }
+@media (min-width: 760px) { .featured { grid-template-columns: repeat(2, 1fr); } }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.filters button { cursor: pointer; border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 6px 12px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em; color: var(--muted); }
+.filters button:hover { color: var(--ink); border-color: #3A3F48; }
+.filters button[aria-pressed="true"] { color: #08131F; background: var(--copper); border-color: var(--copper); }
+.filters em { font-style: normal; opacity: .7; margin-left: 6px; }
+.grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1020px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+.card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 12px; background: var(--raise); overflow: hidden; transition: border-color .2s, transform .2s; }
+.card:hover { border-color: rgba(142,201,245,.6); transform: translateY(-2px); }
+.card-top { position: relative; height: 104px; border-bottom: 1px solid var(--line);
+background: radial-gradient(rgba(142,201,245,.16) 1px, transparent 1.3px) 0 0 / 12px 12px, linear-gradient(135deg, #15181D, #0E1013); }
+.featured .card-top { height: 150px; }
+.card-top svg { position: absolute; right: 18px; bottom: 12px; width: 76px; height: 76px; color: var(--copper); }
+.featured .card-top svg { width: 112px; height: 112px; }
+.card-top .code { position: absolute; left: 16px; top: 14px; right: 110px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.card-body { display: flex; flex-direction: column; gap: 10px; padding: 16px 16px 14px; flex: 1; }
+.card-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.pill { position: absolute; right: 14px; top: 12px; flex: none; background: rgba(10,11,13,.6); font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; border: 1px solid #2E3A33; color: var(--ok); }
+.pill.now { border-color: rgba(142,201,245,.6); color: var(--copper); }
+.short { margin: 0; color: var(--muted); font-size: .94rem; }
+.detail { margin: 0; color: var(--ink); font-size: .92rem; border-left: 2px solid var(--copper); padding-left: 10px; }
+.card-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.more { white-space: nowrap; flex: none; cursor: pointer; border: 0; background: none; color: var(--copper); font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; padding: 4px 0; }
+.more:hover { text-decoration: underline; }
+/* Contacto */
+.contact { display: grid; gap: 22px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .contact { grid-template-columns: 1fr 1fr; } }
+.box { border: 1px solid var(--line); border-radius: 12px; background: var(--raise); padding: 20px; }
+.box h3 { margin-bottom: 8px; }
+.box p { margin: 0; color: var(--muted); }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px; padding-top: 22px; padding-bottom: 40px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .view { animation: none; } .card, .card:hover { transition: none; transform: none; } }
+.sec-h { margin: 44px 0 14px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: var(--copper); }
+.does { display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .does { grid-template-columns: repeat(2, 1fr); } }
+.do { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px 22px; }
+.do i { display: block; font-style: normal; font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em; color: var(--copper); margin-bottom: 10px; }
+.do h3 { margin: 0 0 8px; font-family: var(--font-display); font-weight: 500; font-size: 1.22rem; line-height: 1.25; }
+.do p { margin: 0 0 14px; color: var(--muted); font-size: .95rem; line-height: 1.55; }
+.now { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 28px; }
+@media (min-width: 760px) { .now { grid-template-columns: repeat(2, 1fr); } }
+.now div { background: var(--panel); padding: 16px 20px; }
+.now small { display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--copper); margin-bottom: 6px; }
+.now b { display: block; font-weight: 500; }
+.now span { color: var(--muted); font-size: .92rem; }
+.proj-lead { margin: -6px 0 26px; max-width: 62ch; color: var(--muted); font-size: 1rem; line-height: 1.6; }
+.mail { display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: .95rem; color: var(--copper); text-decoration: none; border-bottom: 1px solid rgba(142,201,245,.45); padding-bottom: 2px; word-break: break-all; }
+.mail:hover { border-bottom-color: var(--copper); }
+</style>
+</head>
+<body>
+<header class="bar">
+<div class="wrap">
+<a class="brand" href="#sobre-mi" aria-label="Eduardo Bermúdez">
+<svg viewBox="0 0 48 48" fill="none" stroke="#8EC9F5" stroke-width="1.6" aria-hidden="true">
+<rect x="11" y="11" width="26" height="26" rx="3"/>
+<path d="M17 5v6M24 5v6M31 5v6M17 37v6M24 37v6M31 37v6M5 17h6M5 24h6M5 31h6M37 17h6M37 24h6M37 31h6"/>
+<text x="24" y="28.5" text-anchor="middle" fill="#ECEEF1" stroke="none" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500">EB</text>
+</svg>
+<span><b>Portafolio</b><small id="by"></small></span>
+</a>
+<div class="lang" role="group" aria-label="Idioma / Language">
+<button type="button" id="lang-es" aria-pressed="true">ES</button>
+<button type="button" id="lang-en" aria-pressed="false">EN</button>
+</div>
+</div>
+</header>
+<div class="wrap">
+<nav class="tabs" role="tablist" aria-label="Secciones">
+<button type="button" role="tab" id="tab-sobre-mi" data-v="sobre-mi"></button>
+<button type="button" role="tab" id="tab-proyectos" data-v="proyectos"></button>
+<button type="button" role="tab" id="tab-contacto" data-v="contacto"></button>
+</nav>
+<main class="frame">
+<i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+<div class="frame-in">
+<section class="view" id="v-sobre-mi" role="tabpanel" aria-labelledby="tab-sobre-mi">
+<div class="about">
+<div>
+<p class="eyebrow" id="who-eyebrow"></p>
+<h1>Eduardo Javier Bermúdez Balladares</h1>
+<p class="role" id="role"></p>
+<p class="bio" id="bio"></p>
+</div>
+<svg class="chip-art" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+<g stroke="#262A31" stroke-width="1">
+<path d="M150 20v60M110 20v60M190 20v60M150 220v60M110 220v60M190 220v60M20 150h60M20 110h60M20 190h60M220 150h60M220 110h60M220 190h60"/>
+</g>
+<g stroke="#8EC9F5" stroke-width="1.5" stroke-linecap="round">
+<path d="M110 20v30l-20 20v10M190 280v-30l20-20v-10M20 190h30l20 20h10M280 110h-30l-20-20h-10"/>
+<circle cx="90" cy="80" r="3" fill="#8EC9F5"/><circle cx="210" cy="220" r="3" fill="#8EC9F5"/>
+<circle cx="80" cy="210" r="3" fill="#8EC9F5"/><circle cx="220" cy="90" r="3" fill="#8EC9F5"/>
+</g>
+<rect x="80" y="80" width="140" height="140" rx="10" fill="#171A1F" stroke="#3A3F48"/>
+<rect x="96" y="96" width="108" height="108" rx="6" stroke="#8EC9F5" stroke-opacity=".5"/>
+<circle cx="104" cy="104" r="3" fill="#8EC9F5"/>
+<text x="150" y="160" text-anchor="middle" fill="#ECEEF1" font-family="JetBrains Mono, monospace" font-size="34" font-weight="500">EB</text>
+<text x="150" y="186" text-anchor="middle" fill="#9AA2AD" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="3">ICE · ULSA</text>
+</svg>
+</div>
+<h4 class="sec-h" id="do-t"></h4>
+<div class="does" id="does"></div>
+<div class="now" id="now"></div>
+</section>
+<section class="view" id="v-proyectos" role="tabpanel" aria-labelledby="tab-proyectos" hidden>
+<p class="eyebrow" id="proj-eyebrow"></p>
+<h2 id="proj-title"></h2>
+<p class="proj-lead" id="proj-lead"></p>
+<div class="featured" id="featured"></div>
+<p class="eyebrow" id="all-eyebrow"></p>
+<div class="filters" id="filters"></div>
+<div class="grid" id="grid"></div>
+</section>
+<section class="view" id="v-contacto" role="tabpanel" aria-labelledby="tab-contacto" hidden>
+<p class="eyebrow" id="contact-eyebrow"></p>
+<h2 id="contact-title"></h2>
+<div class="contact">
+<div class="box"><h3 id="edu-t"></h3><p id="edu-d"></p></div>
+<div class="box"><h3 id="reach-t"></h3><p id="reach-d"></p><a class="mail" href="mailto:eduardobermudezb.leon@gmail.com">eduardobermudezb.leon@gmail.com</a></div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<footer>
+<div class="wrap"><span>© Eduardo Bermúdez 2026</span><span>León, Nicaragua</span></div>
+</footer>
+<script>
+(function () {
+var AREAS = [
+{ k: 'robot', es: 'Robótica y control',          en: 'Robotics & control' },
+{ k: 'iot',   es: 'IoT e Industria 4.0',         en: 'IoT & Industry 4.0' },
+{ k: 'redes', es: 'Redes',                       en: 'Networking' },
+{ k: 'infra', es: 'Infraestructura y seguridad', en: 'Infrastructure & security' },
+{ k: 'sis',   es: 'Sistemas y nube',             en: 'Systems & cloud' },
+{ k: 'soft',  es: 'Software y simulación',       en: 'Software & simulation' },
+{ k: 'ia',    es: 'IA y visión',                 en: 'AI & vision' },
+{ k: 'innov', es: 'Innovación',                  en: 'Innovation' },
+{ k: 'isa',   es: 'Prácticas en Ingenio San Antonio', en: 'Internship at Ingenio San Antonio' }
+];
+var MODE = {
+ind:   { es: 'Individual', en: 'Individual' },
+t2:    { es: 'Equipo de 2', en: 'Team of 2' },
+t3:    { es: 'Equipo de 3', en: 'Team of 3' },
+t4:    { es: 'Equipo de 4', en: 'Team of 4' },
+sent:  { es: 'Equipo Sentinels', en: 'Team Sentinels' },
+t3now: { es: 'Equipo de 3', en: 'Team of 3' },
+t6:    { es: 'Equipo de 6', en: 'Team of 6' }
+};
+/* Símbolos esquemáticos por área */
+var GLYPH = {
+robot: '<path d="M14 84h36M32 84V66l18-22 22 8" stroke-width="2.4"/><circle cx="32" cy="66" r="5"/><circle cx="50" cy="44" r="5"/><circle cx="72" cy="52" r="4"/><path d="M76 48l8-6M76 56l8 6" stroke-width="2"/>',
+iot: '<circle cx="50" cy="62" r="5"/><path d="M50 67v22M38 89h24" stroke-width="2.2"/><path d="M36 48a20 20 0 0 1 28 0M28 40a31 31 0 0 1 44 0M20 32a42 42 0 0 1 60 0" stroke-width="2"/>',
+redes: '<circle cx="20" cy="30" r="6"/><circle cx="80" cy="26" r="6"/><circle cx="50" cy="56" r="7"/><circle cx="24" cy="80" r="6"/><circle cx="78" cy="78" r="6"/><path d="M25 34l20 18M75 30L55 52M29 76l16-15M73 74L56 60M26 30h48" stroke-width="1.8"/>',
+infra: '<rect x="24" y="14" width="52" height="72" rx="3" stroke-width="2.2"/><path d="M24 32h52M24 50h52M24 68h52" stroke-width="1.8"/><circle cx="66" cy="23" r="2.5"/><circle cx="66" cy="41" r="2.5"/><circle cx="66" cy="59" r="2.5"/><path d="M32 23h20M32 41h20M32 59h20" stroke-width="1.6"/>',
+sis: '<ellipse cx="50" cy="24" rx="28" ry="9" stroke-width="2.2"/><path d="M22 24v52c0 5 12.5 9 28 9s28-4 28-9V24M22 42c0 5 12.5 9 28 9s28-4 28-9M22 60c0 5 12.5 9 28 9s28-4 28-9" stroke-width="2"/>',
+soft: '<path d="M36 28L16 50l20 22M64 28l20 22-20 22M56 22L44 78" stroke-width="2.6"/>',
+ia: '<circle cx="20" cy="30" r="5"/><circle cx="20" cy="70" r="5"/><circle cx="50" cy="20" r="5"/><circle cx="50" cy="50" r="5"/><circle cx="50" cy="80" r="5"/><circle cx="80" cy="50" r="6"/><path d="M25 30l20-10M25 30l20 20M25 30l20 30M25 70l20-50M25 70l20-20M25 70l20 10M55 20l20 28M55 50h19M55 80l20-28" stroke-width="1.4"/>',
+isa: '<path d="M12 86h76M18 86V50l18 10V50l18 10V50l18 10V30h10v56" stroke-width="2.2"/><path d="M76 22c4-4 10-4 14 0" stroke-width="1.8"/><path d="M28 74h8M46 74h8M64 74h8" stroke-width="2"/>',
+innov: '<path d="M50 16a24 24 0 0 0-14 43c3 3 4 6 4 10h20c0-4 1-7 4-10a24 24 0 0 0-14-43z" stroke-width="2.2"/><path d="M41 78h18M44 86h12M50 30v18M42 40l8 8 8-8" stroke-width="2"/>'
+};
+var FEAT = ['Clasificación de piezas por color con PLC Siemens y Factory I/O', 'Marlim, tamizador de arena para limpiar playas',
+'Estacionamiento inteligente con visión artificial', 'Modelado y control de un brazo robótico de 3 grados de libertad'];
+var SHORT = {
+'Modelado y control de un brazo robótico de 3 grados de libertad': ['Modelo cinemático y dinámico con Denavit-Hartenberg y jacobianos.', 'Kinematic and dynamic model with Denavit-Hartenberg and Jacobians.'],
+'Célula robotizada para ensamblaje de componentes electrónicos': ['Lógica de control con visión, PLC, robot SCARA y SCADA.', 'Control logic with vision, PLC, a SCARA robot and SCADA.'],
+'Compensadores de adelanto y atraso en MATLAB': ['Diseño de compensadores con lugar de las raíces y respuesta al escalón.', 'Compensator design with root locus and step response.'],
+'Plano P&ID de una columna de destilación': ['Diagrama de tuberías e instrumentación en SmartDraw.', 'Piping and instrumentation diagram in SmartDraw.'],
+'Clasificación de piezas por color con PLC Siemens y Factory I/O': ['Línea automatizada con S7-1200, HMI y simulación en Factory I/O.', 'Automated line with an S7-1200, an HMI and a Factory I/O simulation.'],
+'Prueba de concepto IoT industrial con MQTT': ['Sensores hacia MQTT, Node-RED e InfluxDB con herramientas abiertas.', 'Sensors to MQTT, Node-RED and InfluxDB with open tools.'],
+'Monitoreo remoto con Arduino, Grafana y Telegram': ['Paneles en Grafana y alertas desde un bot de Telegram.', 'Grafana dashboards and alerts from a Telegram bot.'],
+'Panel web en Flask para controlar un Arduino': ['API REST en Flask que lee y controla un Arduino por puerto serie.', 'Flask REST API that reads and controls an Arduino over serial.'],
+'Riego inteligente para el jardín de rosas de la ULSA': ['Riego según la humedad del suelo y el pronóstico de Open-Meteo.', 'Watering based on soil moisture and the Open-Meteo forecast.'],
+'Enrutamiento dinámico con RIP, OSPF y BGP': ['Dos sistemas autónomos unidos por BGP con redistribución de rutas.', 'Two autonomous systems joined by BGP with route redistribution.'],
+'RIPv2 y subredes no contiguas': ['Por qué RIPv1 falla con subredes no contiguas y cómo lo resuelve RIPv2.', 'Why RIPv1 fails with discontiguous subnets and how RIPv2 fixes it.'],
+'Central telefónica VoIP con Cisco Call Manager Express': ['Telefonía IP entre redes con CME, VLANs y DHCP.', 'IP telephony across networks with CME, VLANs and DHCP.'],
+'Servidor DNS con BIND en Linux y seguridad DNSSEC': ['Zonas directa e inversa en BIND y seguridad de DNS.', 'Forward and reverse zones in BIND and DNS security.'],
+'Red, centro de cómputo y ciberseguridad para la sede ULSA Managua': ['Cableado, VLANs, respaldo N+1 y monitoreo SIEM para una sede.', 'Cabling, VLANs, N+1 backup and SIEM monitoring for a campus.'],
+'Cableado estructurado para 1000 usuarios por departamento a 10 Gbps': ['Red de alta densidad diseñada para bajar el costo total.', 'High-density network designed to lower total cost.'],
+'Capa de seguridad IEEE 802.1X para la red inalámbrica del Instituto Politécnico La Salle': ['Autenticación 802.1X para la red Wi-Fi de un instituto.', '802.1X authentication for an institute’s Wi-Fi.'],
+'RAID 5 por software con mdadm': ['Arreglo RAID 5 con cuatro discos virtuales en Linux.', 'RAID 5 array with four virtual disks on Linux.'],
+'Nube privada con Nextcloud': ['Archivos, permisos y colaboración en una nube de código abierto.', 'Files, permissions and collaboration on an open source cloud.'],
+'Algoritmo de Dijkstra aplicado a OSPF': ['Tabla de ruteo calculada paso a paso con Dijkstra.', 'Routing table computed step by step with Dijkstra.'],
+'Simulación de eventos discretos de una clínica en AnyLogic': ['Colas, consultas y médicos modelados en AnyLogic.', 'Queues, consultations and doctors modeled in AnyLogic.'],
+'Estimación de π por Monte Carlo': ['10,000 puntos aleatorios para estimar π.', '10,000 random points to estimate π.'],
+'Simulación del sistema inmune basada en agentes': ['Células que persiguen patógenos en una simulación con NumPy.', 'Cells chasing pathogens in a NumPy simulation.'],
+'Extracción del plan de estudios desde PDF con Python': ['Tablas de un PDF a CSV con tabula-py y pandas.', 'PDF tables to CSV with tabula-py and pandas.'],
+'Informe técnico sobre MongoDB': ['MongoDB frente a SQL: modelo documental, sharding y réplicas.', 'MongoDB versus SQL: document model, sharding and replicas.'],
+'Requisitos de un sistema de ventas': ['Requisitos funcionales y no funcionales para un comercio.', 'Functional and non-functional requirements for a store.'],
+'Fundamentos de C: semáforo y registro con memoria dinámica': ['Estructuras, temporización y memoria dinámica en C.', 'Structs, timing and dynamic memory in C.'],
+'Predicción de supervivencia del Titanic con Random Forest': ['Clasificador Random Forest con análisis exploratorio de datos.', 'Random Forest classifier with exploratory data analysis.'],
+'Puzzle deslizante 3×3 con búsqueda en anchura': ['Búsqueda en anchura con interfaz gráfica en Tkinter.', 'Breadth-first search with a Tkinter interface.'],
+'Misioneros y caníbales en Prolog': ['Búsqueda de estados con reglas lógicas en Prolog.', 'State search with logic rules in Prolog.'],
+'Detección de movimiento con OpenCV': ['Diferencia entre cuadros de la cámara web en tiempo real.', 'Real-time frame differencing from a webcam.'],
+'Monitoreo ambiental con Python, ThingSpeak y QGIS': ['Datos simulados en la nube y en un mapa de León.', 'Simulated data in the cloud and on a map of León.'],
+'Calidad del aire y ventilación industrial con IoT': ['Ventilación automática según la calidad del aire. ExpoDigital II.', 'Automatic ventilation based on air quality. ExpoDigital II.'],
+'Robot de navegación para gestión de almacenes': ['Prototipo de navegación robótica para logística. ROBOTECH 2026.', 'Robotic navigation prototype for logistics. ROBOTECH 2026.'],
+'Filtración de agua con nanopartículas de carbón activado': ['Nanomateriales para potabilizar agua en comunidades.', 'Nanomaterials to make water safe in communities.'],
+'Marlim, tamizador de arena para limpiar playas': ['Dispositivo de bajo costo para limpiar playas. 3.er lugar en impacto social.', 'Low-cost beach cleaning device. 3rd place in social impact.'],
+'Estacionamiento inteligente con visión artificial': ['YOLOv8n y ESP32-CAM controlan la talanquera y cuentan los espacios.', 'YOLOv8n and an ESP32-CAM run the barrier and count spaces.'],
+'Llenado automatizado de envases con Arduino y monitoreo web': ['Banda, bomba y sensores con supervisión web en tiempo real.', 'Belt, pump and sensors with real-time web supervision.'],
+'Prácticas de PLC: arranque secuencial de motores y TIA Portal': ['Dos motores trifásicos en secuencia y un S7-1200 en TIA Portal.', 'Two three-phase motors in sequence and an S7-1200 in TIA Portal.'],
+'Argos, monitoreo y auditoría de procesos en Rust': ['Monitor de procesos en Rust con TUI, SQLite y alertas.', 'Rust process monitor with a TUI, SQLite and alerts.'],
+'Caos y fractales: conjuntos de Julia en Python': ['Fractales generados con la iteración z² + c.', 'Fractals generated with the z² + c iteration.'],
+'Elección de RTOS para un monitor de aire con ESP32': ['Por qué Zephyr para un sensor IoT con batería y OTA.', 'Why Zephyr for a battery IoT sensor with OTA.'],
+'Gestión centralizada de switches con SNMP': ['Monitoreo de los switches del laboratorio desde una consola.', 'Lab switch monitoring from a single console.'],
+'Escaneo de red con Nmap': ['Hosts, puertos y servicios descubiertos con Nmap.', 'Hosts, ports and services found with Nmap.'],
+'Auditoría de un servidor Linux en SadServers': ['Procesos, Nginx y límites de archivos en un servidor real.', 'Processes, Nginx and file limits on a real server.'],
+'Licuadora interactiva en HTML, CSS y JavaScript': ['Estado, animación y sonido controlados con JavaScript.', 'State, animation and sound driven by JavaScript.'],
+'Brief y wireframe del sitio de la Selección de Fútbol Sala de Nicaragua': ['Objetivos, público y estructura de un sitio deportivo.', 'Goals, audience and structure for a sports site.'],
+'OfertasX, cuadro comparativo de ofertas automático': ['Cotizaciones de proveedores convertidas en un cuadro comparativo.', 'Supplier quotes turned into a comparison table.'],
+'Verificador de facturas contra órdenes de compra': ['Factura y orden de compra comparadas directo desde el correo.', 'Invoice and purchase order compared straight from email.'],
+'Pide Ya ISA, solicitudes de transporte de personal': ['Solicitud, aprobación por correo y trazabilidad en Sheets.', 'Request, email approval and tracking in Sheets.'],
+'Formulario de solicitud de reclutamiento': ['Solicitudes de personal con aprobación y registro.', 'Staff requests with approval and a log.'],
+'Formularios digitales y reportes con fotos en ODK': ['Formatos de papel a XLSForm y reportes con fotos.', 'Paper forms to XLSForm and photo reports.']
+};
+var P = [
+{ a: 'robot', d: [2026, 7], m: 't3',
+es: { t: 'Modelado y control de un brazo robótico de 3 grados de libertad',
+p: 'Modelo cinemático y dinámico de un manipulador espacial: parámetros Denavit-Hartenberg, transformaciones homogéneas, centros de masa y jacobianos de velocidad, con masa, longitud e inercia definidas para cada eslabón.',
+c: 'Robótica' },
+en: { t: 'Modeling and control of a 3-DOF robotic arm',
+p: 'Kinematic and dynamic model of a spatial manipulator: Denavit-Hartenberg parameters, homogeneous transformations, centers of mass and velocity Jacobians, with mass, length and inertia defined for each link.',
+c: 'Robotics' },
+tags: ['Denavit-Hartenberg', 'Cinemática / Kinematics', 'Dinámica / Dynamics'] },
+{ a: 'robot', d: [2025, null], m: null,
+es: { t: 'Célula robotizada para ensamblaje de componentes electrónicos',
+p: 'Especificación de la lógica de control de una línea de ensamblaje: inspección con sensor de visión, verificación con sensor inductivo, PLC, robot SCARA, protocolo de paro ante fallas y envío de datos a SCADA, con análisis de factibilidad y seguridad.',
+c: 'Automatización' },
+en: { t: 'Robotic cell for electronics assembly',
+p: 'Control logic specification for an assembly line: vision-sensor inspection, inductive-sensor verification, PLC, SCARA robot, fault shutdown protocol and data sent to SCADA, with a feasibility and safety analysis.',
+c: 'Automation' },
+tags: ['PLC', 'SCARA', 'SCADA', 'Flowcharts'] },
+{ a: 'robot', d: [2026, 2], m: 'ind',
+es: { t: 'Compensadores de adelanto y atraso en MATLAB',
+p: 'Diseño y análisis de compensadores sobre plantas de segundo y tercer orden: lugar geométrico de las raíces, respuesta al escalón, lazo cerrado y comparación de métricas entre los dos diseños.',
+c: 'Sistemas de Control' },
+en: { t: 'Lead and lag compensators in MATLAB',
+p: 'Design and analysis of compensators on second and third order plants: root locus, step response, closed loop and a comparison of metrics between the two designs.',
+c: 'Control Systems' },
+tags: ['MATLAB', 'Root locus', 'Lead / Lag'] },
+{ a: 'robot', d: [2025, 8], m: 'ind',
+es: { t: 'Plano P&ID de una columna de destilación',
+p: 'Diagrama de tuberías e instrumentación en SmartDraw de una columna de destilación de efecto múltiple: equipos, entradas y salidas, transmisores e indicadores de temperatura, alarmas por temperatura alta, controladores y válvulas.',
+c: 'Instrumentación Industrial' },
+en: { t: 'P&ID drawing of a distillation column',
+p: 'Piping and instrumentation diagram in SmartDraw of a multiple-effect distillation column: equipment, inputs and outputs, temperature transmitters and indicators, high-temperature alarms, controllers and valves.',
+c: 'Industrial Instrumentation' },
+tags: ['SmartDraw', 'P&ID', 'TT / TI / TAH'] },
+{ a: 'iot', d: [2026, 4], m: 't4',
+es: { t: 'Prueba de concepto IoT industrial con MQTT',
+p: 'Arquitectura abierta y de bajo costo para una fábrica: una placa Arduino o ESP32 publica señales analógicas por MQTT a un bróker Mosquitto; Node-RED las procesa y las muestra en un tablero con indicadores, e InfluxDB guarda el histórico.',
+c: 'Electrónica Digital II' },
+en: { t: 'Industrial IoT proof of concept with MQTT',
+p: 'Open, low-cost architecture for a factory: an Arduino or ESP32 board publishes analog signals over MQTT to a Mosquitto broker; Node-RED processes them and shows them on a gauge dashboard, and InfluxDB stores the history.',
+c: 'Digital Electronics II' },
+tags: ['MQTT', 'Mosquitto', 'Node-RED', 'InfluxDB', 'ESP32'] },
+{ a: 'iot', d: [2026, 4], m: 'ind',
+es: { t: 'Monitoreo remoto con Arduino, Grafana y Telegram',
+p: 'Adquisición de datos con Arduino, flujos en Node-RED, series de tiempo en InfluxDB y paneles en Grafana, con alertas y consultas desde un bot de Telegram. Incluye filtrado digital y lógica de estados para validar temperatura y presión.',
+c: 'Electrónica Digital II' },
+en: { t: 'Remote monitoring with Arduino, Grafana and Telegram',
+p: 'Data acquisition with Arduino, flows in Node-RED, time series in InfluxDB and Grafana dashboards, with alerts and queries from a Telegram bot. Includes digital filtering and state logic to validate temperature and pressure.',
+c: 'Digital Electronics II' },
+tags: ['Arduino', 'Node-RED', 'InfluxDB', 'Grafana', 'Telegram Bot'] },
+{ a: 'redes', d: [2025, 10], m: null,
+es: { t: 'Enrutamiento dinámico con RIP, OSPF y BGP',
+p: 'Práctica con dos sistemas autónomos: RIP en el AS 100, OSPF en el AS 200 y una sesión BGP entre ambos, con un router de frontera que redistribuye rutas. Seis routers, tres switches y tres PC.',
+c: 'Tecnología de Redes Globales' },
+en: { t: 'Dynamic routing with RIP, OSPF and BGP',
+p: 'Lab with two autonomous systems: RIP in AS 100, OSPF in AS 200 and a BGP session between them, with a border router redistributing routes. Six routers, three switches and three PCs.',
+c: 'Global Network Technology' },
+tags: ['Packet Tracer', 'RIP', 'OSPF', 'BGP'] },
+{ a: 'redes', d: [2025, 10], m: 'ind',
+es: { t: 'RIPv2 y subredes no contiguas',
+p: 'Informe sobre una topología triangular de tres routers. Con RIPv1 los extremos no alcanzan las subredes no contiguas porque no viajan las máscaras; la práctica analiza el resumen automático y la propagación de rutas con RIPv2 y VLSM.',
+c: 'Tecnología de Redes Globales' },
+en: { t: 'RIPv2 and discontiguous subnets',
+p: 'Report on a triangular three-router topology. With RIPv1 the edge routers cannot reach the discontiguous subnets because masks are not advertised; the lab analyzes automatic summarization and route propagation with RIPv2 and VLSM.',
+c: 'Global Network Technology' },
+tags: ['Cisco IOS', 'RIPv2', 'VLSM'] },
+{ a: 'redes', d: [2025, 11], m: 'ind',
+es: { t: 'Central telefónica VoIP con Cisco Call Manager Express',
+p: 'Telefonía IP entre redes distintas: Call Manager Express en routers 2811, teléfonos que reciben dirección y servidor TFTP por DHCP, VLANs y enrutamiento RIP, con verificación del registro de teléfonos y de las llamadas.',
+c: 'Tecnología de Redes Globales' },
+en: { t: 'VoIP phone system with Cisco Call Manager Express',
+p: 'IP telephony across different networks: Call Manager Express on 2811 routers, phones getting an address and TFTP server through DHCP, VLANs and RIP routing, with verification of phone registration and calls.',
+c: 'Global Network Technology' },
+tags: ['Packet Tracer', 'CME', 'VLAN', 'DHCP'] },
+{ a: 'redes', d: [2025, 7], m: 'ind',
+es: { t: 'Servidor DNS con BIND en Linux y seguridad DNSSEC',
+p: 'Instalación y configuración de BIND: zona directa e inversa, reenvío en named.conf.options, verificación de la configuración y pruebas con dig. Se complementa con una guía sobre envenenamiento de caché, secuestro de DNS y firmas de DNSSEC.',
+c: 'Taller de Conectividad' },
+en: { t: 'DNS server with BIND on Linux and DNSSEC security',
+p: 'BIND installation and configuration: forward and reverse zones, forwarding in named.conf.options, configuration checks and tests with dig. Complemented by a guide on cache poisoning, DNS hijacking and DNSSEC signatures.',
+c: 'Connectivity Workshop' },
+tags: ['BIND', 'Linux', 'dig', 'DNSSEC'] },
+{ a: 'infra', d: [2026, 2], m: 'ind',
+es: { t: 'Cableado estructurado para 1000 usuarios por departamento a 10 Gbps',
+p: 'Propuesta que reduce el costo total de propiedad: cobre Cat 6A en acceso y fibra preconectorizada Base-24 en troncales, climatización con pasillos fríos y calientes, áreas de distribución menores a 20 m² y redundancia N (Tier 1).',
+c: 'Administración de Centros de Cómputos' },
+en: { t: 'Structured cabling for 1,000 users per department at 10 Gbps',
+p: 'Proposal that lowers total cost of ownership: Cat 6A copper at access and pre-terminated Base-24 fiber on the backbone, hot and cold aisle cooling, distribution areas under 20 m² and N redundancy (Tier 1).',
+c: 'Computer Center Administration' },
+tags: ['TIA', 'ASHRAE', 'Cat 6A', 'Fibra / Fiber'] },
+{ a: 'infra', d: [2026, 4], m: 't3',
+es: { t: 'Red, centro de cómputo y ciberseguridad para la sede ULSA Managua',
+p: 'Diseño de cableado estructurado para datos, VoIP y videovigilancia IP según TIA/EIA-568, 569 y 606 e ISO/IEC 11801: topología en estrella jerárquica, segmentación con VLANs, respaldo N+1 para el centro de datos y monitoreo con SIEM.',
+c: 'Administración de Centros de Cómputos' },
+en: { t: 'Network, data center and cybersecurity for the ULSA Managua campus',
+p: 'Structured cabling design for data, VoIP and IP video surveillance under TIA/EIA-568, 569 and 606 and ISO/IEC 11801: hierarchical star topology, VLAN segmentation, N+1 backup for the data center and SIEM monitoring.',
+c: 'Computer Center Administration' },
+tags: ['VLAN', 'SIEM', 'VoIP', 'ISO/IEC 11801'] },
+{ a: 'infra', d: [2026, null], m: 't3now',
+es: { t: 'Capa de seguridad IEEE 802.1X para la red inalámbrica del Instituto Politécnico La Salle',
+p: 'Protocolo de investigación del proyecto de graduación: implementación de autenticación IEEE 802.1X para proteger la red Wi-Fi del instituto en León, Nicaragua. Mi parte es la justificación.',
+c: 'Proyecto de graduación' },
+en: { t: 'IEEE 802.1X security layer for the Instituto Politécnico La Salle wireless network',
+p: 'Research protocol for the graduation project: implementing IEEE 802.1X authentication to protect the institute’s Wi-Fi network in León, Nicaragua. My part is the justification.',
+c: 'Graduation project' },
+tags: ['IEEE 802.1X', 'Wi-Fi', 'Seguridad / Security'] },
+{ a: 'sis', d: [2025, 6], m: 'ind',
+es: { t: 'RAID 5 por software con mdadm',
+p: 'Laboratorio en máquina virtual con cuatro discos de 2 GB: identificación de dispositivos de bloque con lsblk y creación de un arreglo RAID 5 con mdadm.',
+c: 'Sistemas Operativos II' },
+en: { t: 'Software RAID 5 with mdadm',
+p: 'Virtual machine lab with four 2 GB disks: identifying block devices with lsblk and building a RAID 5 array with mdadm.',
+c: 'Operating Systems II' },
+tags: ['Linux', 'mdadm', 'VirtualBox'] },
+{ a: 'sis', d: [2025, 8], m: 'ind',
+es: { t: 'Nube privada con Nextcloud',
+p: 'Práctica con la plataforma de código abierto: carga y organización de archivos, permisos de solo lectura o edición, documentos en línea y calendario, con una comparación frente a servicios comerciales desde la privacidad y el control de los datos.',
+c: 'Taller de Conectividad' },
+en: { t: 'Private cloud with Nextcloud',
+p: 'Hands-on work with the open source platform: uploading and organizing files, read-only or edit permissions, online documents and calendar, with a comparison to commercial services on privacy and data control.',
+c: 'Connectivity Workshop' },
+tags: ['Nextcloud', 'Open source'] },
+{ a: 'soft', d: [2025, 9], m: 'ind',
+es: { t: 'Algoritmo de Dijkstra aplicado a OSPF',
+p: 'Ejercicio resuelto paso a paso sobre una red de seis routers: iteraciones, manejo de empates y tabla de ruteo final de R1 con costo, ruta y siguiente salto.',
+c: 'Tecnología de Redes Globales' },
+en: { t: 'Dijkstra’s algorithm applied to OSPF',
+p: 'Worked step by step on a six-router network: iterations, tie handling and the final routing table of R1 with cost, path and next hop.',
+c: 'Global Network Technology' },
+tags: ['Dijkstra', 'SPF', 'OSPF'] },
+{ a: 'iot', d: [2026, null], m: null,
+es: { t: 'Panel web en Flask para controlar un Arduino',
+p: 'Servidor Flask que se comunica por puerto serie con un Arduino simulado en Proteus: un hilo en segundo plano lee el estado de cuatro entradas y una API REST permite consultarlo y encender o apagar cuatro salidas desde la página web.',
+c: 'Temas Selectos de Cibernética' },
+en: { t: 'Flask web panel to control an Arduino',
+p: 'Flask server that talks over a serial port to an Arduino simulated in Proteus: a background thread reads the state of four inputs and a REST API lets the web page query it and switch four outputs on or off.',
+c: 'Selected Topics in Cybernetics' },
+tags: ['Python', 'Flask', 'PySerial', 'REST API', 'Proteus'] },
+{ a: 'iot', d: [2025, 3], m: 't2',
+es: { t: 'Riego inteligente para el jardín de rosas de la ULSA',
+p: 'Diseño de un sistema IoT que ajusta el riego con la humedad del suelo y el pronóstico del clima de la API Open-Meteo. Prototipo simulado en Tinkercad con Arduino Uno, sensor de humedad de suelo y sensor de temperatura TMP36.',
+c: 'Temas Selectos de Cibernética' },
+en: { t: 'Smart irrigation for the ULSA rose garden',
+p: 'Design of an IoT system that adjusts watering using soil moisture and the Open-Meteo weather forecast API. Prototype simulated in Tinkercad with an Arduino Uno, a soil moisture sensor and a TMP36 temperature sensor.',
+c: 'Selected Topics in Cybernetics' },
+tags: ['Arduino', 'Tinkercad', 'Open-Meteo', 'IoT'] },
+{ a: 'soft', d: [2025, 7], m: 'ind',
+es: { t: 'Simulación de eventos discretos de una clínica en AnyLogic',
+p: 'Llegada de pacientes cada 1 a 3 minutos, cola de espera, consulta con duración triangular de 4 a 10 minutos y dos médicos como recurso limitado, para estudiar colas, tiempos de espera y uso de los médicos.',
+c: 'Modelos de Simulación' },
+en: { t: 'Discrete event simulation of a clinic in AnyLogic',
+p: 'Patients arriving every 1 to 3 minutes, a waiting queue, consultations with a triangular 4 to 10 minute duration and two doctors as a limited resource, to study queues, waiting times and doctor utilization.',
+c: 'Simulation Models' },
+tags: ['AnyLogic', 'DES', 'Colas / Queues'] },
+{ a: 'soft', d: [2025, null], m: null,
+es: { t: 'Estimación de π por Monte Carlo',
+p: 'Simulación de 10,000 puntos aleatorios en un cuadrado para estimar π con la proporción que cae dentro del círculo, con un gráfico de los puntos dentro y fuera.',
+c: 'Modelos de Simulación' },
+en: { t: 'Estimating π with Monte Carlo',
+p: 'Simulation of 10,000 random points in a square to estimate π from the share that falls inside the circle, with a plot of the points inside and outside.',
+c: 'Simulation Models' },
+tags: ['Python', 'Monte Carlo', 'Matplotlib'] },
+{ a: 'soft', d: [2025, null], m: null,
+es: { t: 'Simulación del sistema inmune basada en agentes',
+p: 'Cincuenta células inmunes se mueven en un espacio de 100 × 100 y persiguen al patógeno más cercano. Modelo hecho con NumPy y visualizado con Matplotlib.',
+c: 'Temas Selectos de Cibernética' },
+en: { t: 'Agent-based immune system simulation',
+p: 'Fifty immune cells move in a 100 × 100 space and chase the nearest pathogen. Model built with NumPy and visualized with Matplotlib.',
+c: 'Selected Topics in Cybernetics' },
+tags: ['Python', 'NumPy', 'Agentes / Agents'] },
+{ a: 'soft', d: [2025, 10], m: 'ind',
+es: { t: 'Extracción del plan de estudios desde PDF con Python',
+p: 'Lectura de las tablas del plan de estudios de la carrera con tabula-py: detecta 10 tablas, las une y limpia con pandas y las guarda en CSV.',
+c: 'Organización de Archivos' },
+en: { t: 'Extracting the study plan from a PDF with Python',
+p: 'Reads the degree’s study plan tables with tabula-py: detects 10 tables, merges and cleans them with pandas and saves them to CSV.',
+c: 'File Organization' },
+tags: ['Python', 'tabula-py', 'pandas'] },
+{ a: 'ia', d: [2024, 7], m: null,
+es: { t: 'Predicción de supervivencia del Titanic con Random Forest',
+p: 'Análisis exploratorio con pandas y seaborn, imputación de datos faltantes y variables dummy, y un clasificador Random Forest de 100 árboles evaluado con exactitud, matriz de confusión y reporte de clasificación.',
+c: 'Inteligencia Artificial' },
+en: { t: 'Titanic survival prediction with Random Forest',
+p: 'Exploratory analysis with pandas and seaborn, missing value imputation and dummy variables, and a 100-tree Random Forest classifier evaluated with accuracy, a confusion matrix and a classification report.',
+c: 'Artificial Intelligence' },
+tags: ['Python', 'scikit-learn', 'pandas', 'seaborn'] },
+{ a: 'ia', d: [2024, 6], m: null,
+es: { t: 'Puzzle deslizante 3×3 con búsqueda en anchura',
+p: 'El tablero es una clase y cada estado un nodo de un árbol de búsqueda. La solución se encuentra con búsqueda en anchura sin repetir estados, y una interfaz en Tkinter permite mover las fichas y pedir la solución con un botón.',
+c: 'Inteligencia Artificial' },
+en: { t: '3×3 sliding puzzle with breadth-first search',
+p: 'The board is a class and each state a node in a search tree. The solution is found with breadth-first search without revisiting states, and a Tkinter interface lets you move tiles and ask for the solution with a button.',
+c: 'Artificial Intelligence' },
+tags: ['Python', 'BFS', 'Tkinter'] },
+{ a: 'ia', d: [2024, 6], m: null,
+es: { t: 'Misioneros y caníbales en Prolog',
+p: 'El problema se representa como estados de las dos orillas y el bote, con reglas de cruces válidos y una búsqueda recursiva de un camino que evita estados ya visitados.',
+c: 'Inteligencia Artificial' },
+en: { t: 'Missionaries and cannibals in Prolog',
+p: 'The problem is represented as states of both banks and the boat, with rules for valid crossings and a recursive search for a path that avoids already visited states.',
+c: 'Artificial Intelligence' },
+tags: ['Prolog', 'Búsqueda / Search'] },
+{ a: 'ia', d: [2026, null], m: null,
+es: { t: 'Detección de movimiento con OpenCV',
+p: 'Captura de la cámara web en tiempo real, diferencia entre cuadros consecutivos, escala de grises, desenfoque gaussiano y umbral para resaltar las zonas en movimiento, con aviso sonoro.',
+c: 'Temas Selectos de Cibernética' },
+en: { t: 'Motion detection with OpenCV',
+p: 'Real-time webcam capture, difference between consecutive frames, grayscale, Gaussian blur and thresholding to highlight moving areas, with an audible alert.',
+c: 'Selected Topics in Cybernetics' },
+tags: ['Python', 'OpenCV', 'Visión / Vision'] },
+{ a: 'innov', d: [2025, 10], m: 'sent',
+es: { t: 'Marlim, tamizador de arena para limpiar playas',
+p: 'Propuesta para el desafío de residuos en playas: un tambor rotatorio con rastrillos y malla de nylon que separa la basura y devuelve la arena, sobre un chasis tipo carretilla con mango regulable, acople para bicicleta y materiales reciclados. Tercer lugar en la categoría de impacto social, sede ULSA Nicaragua.',
+c: 'Rally Latinoamericano de Innovación' },
+en: { t: 'Marlim, a sand sifter for cleaning beaches',
+p: 'Proposal for the beach waste challenge: a rotating drum with rakes and a nylon mesh that separates litter and returns the sand, on a wheelbarrow chassis with an adjustable handle, a bicycle hitch and recycled materials. Third place in the social impact category, ULSA Nicaragua site.',
+c: 'Latin American Innovation Rally' },
+tags: ['Diseño / Design', 'Ingeniería frugal', 'Sostenibilidad'] },
+{ a: 'robot', d: [2025, 12], m: 't4', feat: 1,
+es: { t: 'Clasificación de piezas por color con PLC Siemens y Factory I/O',
+p: 'Línea automatizada con PLC S7-1200 (CPU 1214C), HMI KTP700 Basic, sensor de color, cilindros neumáticos y motor de banda. La lógica se diseñó con GRAFCET y se programó en Ladder y texto estructurado con bloques FC y FB; se validó en Factory I/O con pruebas de fallas e incluye presupuesto.',
+c: 'Control Lógico Programable' },
+en: { t: 'Color-based part sorting with a Siemens PLC and Factory I/O',
+p: 'Automated line with an S7-1200 PLC (CPU 1214C), a KTP700 Basic HMI, a color sensor, pneumatic cylinders and a conveyor motor. The logic was designed with GRAFCET and programmed in Ladder and structured text with FC and FB blocks; it was validated in Factory I/O with fault tests and includes a budget.',
+c: 'Programmable Logic Control' },
+tags: ['TIA Portal', 'S7-1200', 'HMI', 'GRAFCET', 'Factory I/O'] },
+{ a: 'soft', d: [2025, 10], m: 't2',
+es: { t: 'Informe técnico sobre MongoDB',
+p: 'Análisis de MongoDB frente a las bases de datos relacionales: modelo documental en BSON, esquema flexible, escalabilidad horizontal con sharding, alta disponibilidad con réplicas, índices y casos de uso en la industria.',
+c: 'Organización de Archivos' },
+en: { t: 'Technical report on MongoDB',
+p: 'Analysis of MongoDB versus relational databases: BSON document model, flexible schema, horizontal scaling with sharding, high availability with replica sets, indexes and industry use cases.',
+c: 'File Organization' },
+tags: ['MongoDB', 'NoSQL', 'SQL'] },
+{ a: 'soft', d: [2024, null], m: null,
+es: { t: 'Requisitos de un sistema de ventas',
+p: 'Especificación de requisitos funcionales y no funcionales para un comercio: registro de clientes, productos y ventas, permisos de usuario, métodos de pago, informes por fecha, cliente y producto, compatibilidad web y respaldos.',
+c: 'Ingeniería de Software' },
+en: { t: 'Requirements for a sales system',
+p: 'Functional and non-functional requirements for a store: customer, product and sales records, user permissions, payment methods, reports by date, customer and product, web compatibility and backups.',
+c: 'Software Engineering' },
+tags: ['Requisitos / Requirements', 'Análisis / Analysis'] },
+{ a: 'soft', d: [2023, null], m: null,
+es: { t: 'Fundamentos de C: semáforo y registro con memoria dinámica',
+p: 'Simulación de un semáforo en consola con estructuras, temporización y colores ANSI, y un registro de animales que reserva y libera memoria con malloc y free.',
+c: 'Lenguaje de Programación II' },
+en: { t: 'C fundamentals: traffic light and dynamic memory records',
+p: 'A console traffic light simulation with structs, timing and ANSI colors, and an animal registry that allocates and frees memory with malloc and free.',
+c: 'Programming Language II' },
+tags: ['C', 'Structs', 'malloc / free'] },
+{ a: 'iot', d: [2026, 4], m: 't3',
+es: { t: 'Monitoreo ambiental con Python, ThingSpeak y QGIS',
+p: 'Arquitectura IoT simulada: Python genera datos de temperatura y humedad, ThingSpeak los guarda en la nube y QGIS los muestra en un mapa de puntos de la ciudad de León, con pruebas para corregir la georreferenciación.',
+c: 'Temas Selectos de Cibernética' },
+en: { t: 'Environmental monitoring with Python, ThingSpeak and QGIS',
+p: 'Simulated IoT architecture: Python generates temperature and humidity data, ThingSpeak stores it in the cloud and QGIS shows it on a map of points in the city of León, with tests to fix the georeferencing.',
+c: 'Selected Topics in Cybernetics' },
+tags: ['Python', 'ThingSpeak', 'QGIS', 'SIG / GIS'] },
+{ a: 'iot', d: [2026, 4], m: null, cv: 1,
+es: { t: 'Calidad del aire y ventilación industrial con IoT',
+p: 'Proyecto presentado en la feria ExpoDigital II: sensores ambientales, comunicación de datos y control automático de la ventilación de una planta según la calidad del aire.',
+c: 'Feria ExpoDigital II' },
+en: { t: 'Air quality and industrial ventilation with IoT',
+p: 'Project shown at the ExpoDigital II fair: environmental sensors, data communication and automatic control of a plant’s ventilation based on air quality.',
+c: 'ExpoDigital II fair' },
+tags: ['IoT', 'Sensores / Sensors', 'Control'] },
+{ a: 'robot', d: [2026, 8], m: null, cv: 1,
+es: { t: 'Robot de navegación para gestión de almacenes',
+p: 'Prototipo co-creado para la feria ROBOTECH de EXPOINNOVA ULSA 2026: un modelo robótico optimizado para operaciones y navegación en almacenes, orientado a la logística y el control de inventario.',
+c: 'Feria ROBOTECH 2026' },
+en: { t: 'Navigation robot for warehouse management',
+p: 'Prototype co-created for the ROBOTECH fair at EXPOINNOVA ULSA 2026: an optimized robotic model for warehouse operations and navigation, aimed at logistics and inventory control.',
+c: 'ROBOTECH 2026 fair' },
+tags: ['Robótica / Robotics', 'Navegación / Navigation', 'Logística'] },
+{ a: 'innov', d: [2024, 12], m: 't3',
+es: { t: 'Filtración de agua con nanopartículas de carbón activado',
+p: 'Propuesta de un sistema de filtración que aprovecha la capacidad de adsorción del carbón activado a escala nano para retirar metales pesados, microorganismos y residuos químicos del agua en comunidades con pocos recursos.',
+c: 'Introducción a la Nanotecnología' },
+en: { t: 'Water filtration with activated carbon nanoparticles',
+p: 'Proposal for a filtration system that uses the adsorption capacity of nanoscale activated carbon to remove heavy metals, microorganisms and chemical residues from water in low-resource communities.',
+c: 'Introduction to Nanotechnology' },
+tags: ['Nanotecnología', 'Agua / Water', 'Sostenibilidad'] },
+{ a: 'ia', d: [2026, 4], m: 't4',
+es: { t: 'Estacionamiento inteligente con visión artificial',
+p: 'Control de acceso vehicular a escala: una ESP32-CAM transmite video por HTTP, un script en Python con YOLOv8n y OpenCV detecta entradas y salidas en un solo carril, y un ESP32 mueve la talanquera (servo SG90) por comunicación serial. Lleva el conteo de espacios, registra cada evento con fecha y hora y publica el estado por MQTT en un panel de Adafruit IO. Un retardo de 3 s entre detecciones eliminó los conteos fantasma.',
+c: 'Electrónica Digital II' },
+en: { t: 'Smart parking with computer vision',
+p: 'Scale-model vehicle access control: an ESP32-CAM streams video over HTTP, a Python script with YOLOv8n and OpenCV detects entries and exits on a single lane, and an ESP32 drives the barrier (SG90 servo) over serial. It keeps a count of free spaces, logs every event with date and time and publishes the status over MQTT to an Adafruit IO dashboard. A 3 s delay between detections removed ghost counts.',
+c: 'Digital Electronics II' },
+tags: ['YOLOv8n', 'ESP32-CAM', 'OpenCV', 'MQTT', 'Adafruit IO'] },
+{ a: 'robot', d: [2025, 8], m: 't6',
+es: { t: 'Llenado automatizado de envases con Arduino y monitoreo web',
+p: 'Prototipo de banda transportadora: un sensor infrarrojo detecta el envase y detiene la banda, una bomba sumergible llena hasta el nivel que marca un sensor ultrasónico y un DS18B20 vigila la temperatura del líquido. El Arduino envía el estado de sensores y actuadores en JSON por puerto serie a una interfaz web en Python, HTML y CSS con alertas en tiempo real.',
+c: 'Instrumentación Industrial' },
+en: { t: 'Automated container filling with Arduino and web monitoring',
+p: 'Conveyor prototype: an infrared sensor detects the container and stops the belt, a submersible pump fills it to the level set by an ultrasonic sensor and a DS18B20 watches the liquid temperature. The Arduino sends sensor and actuator states as JSON over serial to a Python, HTML and CSS web interface with real-time alerts.',
+c: 'Industrial Instrumentation' },
+tags: ['Arduino', 'HC-SR04', 'DS18B20', 'Relés / Relays', 'JSON'] },
+{ a: 'robot', d: [2025, 12], m: 't4',
+es: { t: 'Prácticas de PLC: arranque secuencial de motores y TIA Portal',
+p: 'Diseño, programación y montaje de un arranque secuencial de dos motores trifásicos: M1 arranca con el pulsador de marcha, M2 entra 10 s después y ambos se detienen con el paro o con sus relés térmicos. En otra práctica, configuración de hardware de un Siemens S7-1200 en TIA Portal, detección de hardware no especificado, carga y descarga de programas y copias de seguridad.',
+c: 'Control Lógico Programable' },
+en: { t: 'PLC labs: sequential motor start and TIA Portal',
+p: 'Design, programming and wiring of a sequential start for two three-phase motors: M1 starts with the start button, M2 follows 10 s later and both stop with the stop button or their thermal relays. In another lab, hardware configuration of a Siemens S7-1200 in TIA Portal, detection of unspecified hardware, program upload and download, and backups.',
+c: 'Programmable Logic Control' },
+tags: ['PLC', 'TIA Portal', 'S7-1200', 'Motores trifásicos'] },
+{ a: 'soft', d: [2025, 8], m: 't3',
+es: { t: 'Argos, monitoreo y auditoría de procesos en Rust',
+p: 'Herramienta multiplataforma escrita en Rust que supervisa en tiempo real el uso de CPU y memoria de cada proceso, guarda una bitácora histórica en SQLite, lanza alertas por umbrales, exporta a CSV y JSON y permite suspender o terminar procesos desde una CLI y una interfaz de texto (TUI). Incluye especificación de requisitos según IEEE 830 y una hoja de ruta hacia API REST y panel web.',
+c: 'Sistemas Operativos II' },
+en: { t: 'Argos, process monitoring and auditing in Rust',
+p: 'Cross-platform tool written in Rust that tracks each process’s CPU and memory use in real time, keeps a history log in SQLite, raises threshold alerts, exports to CSV and JSON and can suspend or kill processes from a CLI and a text interface (TUI). Includes an IEEE 830 requirements specification and a roadmap toward a REST API and web dashboard.',
+c: 'Operating Systems II' },
+tags: ['Rust', 'TUI', 'SQLite', 'IEEE 830'] },
+{ a: 'soft', d: [2026, 2], m: 't2',
+es: { t: 'Caos y fractales: conjuntos de Julia en Python',
+p: 'Implementación en Python de la iteración z² + c para generar conjuntos de Julia y estudiar, desde la cibernética, cómo una regla simple con retroalimentación separa la estabilidad del caos.',
+c: 'Temas Selectos de Cibernética' },
+en: { t: 'Chaos and fractals: Julia sets in Python',
+p: 'Python implementation of the z² + c iteration to generate Julia sets and study, from a cybernetics point of view, how a simple feedback rule separates stability from chaos.',
+c: 'Selected Topics in Cybernetics' },
+tags: ['Python', 'NumPy', 'Sistemas dinámicos'] },
+{ a: 'sis', d: [2025, 8], m: 'ind',
+es: { t: 'Elección de RTOS para un monitor de aire con ESP32',
+p: 'Estudio de caso para un equipo con ESP32 que mide CO2, PM2.5 y humedad y transmite cada 15 minutos con batería: prioridades de seguridad, actualizaciones OTA y consumo, y comparación de sistemas operativos en tiempo real hasta elegir Zephyr.',
+c: 'Sistemas Operativos II' },
+en: { t: 'Choosing an RTOS for an ESP32 air monitor',
+p: 'Case study for an ESP32 device that measures CO2, PM2.5 and humidity and transmits every 15 minutes on battery: security, OTA update and power priorities, and a comparison of real-time operating systems that ends with Zephyr.',
+c: 'Operating Systems II' },
+tags: ['Zephyr RTOS', 'ESP32', 'OTA'] },
+{ a: 'redes', d: [2025, 2], m: 't2',
+es: { t: 'Gestión centralizada de switches con SNMP',
+p: 'Propuesta de un sistema de administración centralizada para los switches de la red LAN del laboratorio usando SNMP: monitoreo de puertos y estado de los equipos desde una sola consola.',
+c: 'Medios y Protocolos' },
+en: { t: 'Centralized switch management with SNMP',
+p: 'Proposal for a centralized management system for the lab’s LAN switches using SNMP: port and device status monitoring from a single console.',
+c: 'Media and Protocols' },
+tags: ['SNMP', 'Switches', 'LAN'] },
+{ a: 'infra', d: [2025, 3], m: 'ind',
+es: { t: 'Escaneo de red con Nmap',
+p: 'Laboratorio de reconocimiento: descubrimiento de hosts, escaneo de puertos y detección de servicios con Nmap, con interpretación de los resultados.',
+c: 'Laboratorio de seguridad' },
+en: { t: 'Network scanning with Nmap',
+p: 'Reconnaissance lab: host discovery, port scanning and service detection with Nmap, with an interpretation of the results.',
+c: 'Security lab' },
+tags: ['Nmap', 'Puertos / Ports', 'Linux'] },
+{ a: 'infra', d: [2025, 4], m: 'ind',
+es: { t: 'Auditoría de un servidor Linux en SadServers',
+p: 'Resolución de escenarios reales en servidores Linux: auditoría de procesos con top, ps y kill, corrección de la sintaxis de Nginx y aumento de LimitNOFILE a 65535 para que el servicio deje de fallar.',
+c: 'Laboratorio de seguridad' },
+en: { t: 'Linux server audit on SadServers',
+p: 'Solving real Linux server scenarios: process auditing with top, ps and kill, fixing Nginx syntax and raising LimitNOFILE to 65535 so the service stops failing.',
+c: 'Security lab' },
+tags: ['Linux', 'Nginx', 'systemd'] },
+{ a: 'soft', d: [2024, null], m: 'ind',
+es: { t: 'Licuadora interactiva en HTML, CSS y JavaScript',
+p: 'Página que enciende y apaga una licuadora: JavaScript controla el estado, activa la animación con clases de CSS y reproduce los sonidos de arranque y funcionamiento.',
+c: 'Programación Web' },
+en: { t: 'Interactive blender in HTML, CSS and JavaScript',
+p: 'A page that turns a blender on and off: JavaScript handles the state, triggers the animation with CSS classes and plays the start and running sounds.',
+c: 'Web Programming' },
+tags: ['JavaScript', 'HTML', 'CSS'] },
+{ a: 'soft', d: [2024, null], m: 'ind',
+es: { t: 'Brief y wireframe del sitio de la Selección de Fútbol Sala de Nicaragua',
+p: 'Planificación de un sitio web: objetivos, público, secciones y estructura de navegación, con un wireframe de la página principal.',
+c: 'Programación Web' },
+en: { t: 'Brief and wireframe for the Nicaragua Futsal Team website',
+p: 'Website planning: goals, audience, sections and navigation structure, with a wireframe of the home page.',
+c: 'Web Programming' },
+tags: ['UX', 'Wireframe', 'Brief'] },
+{ a: 'isa', d: [2026, 10], m: 'ind',
+es: { t: 'OfertasX, cuadro comparativo de ofertas automático',
+p: 'Herramienta en Google Sheets y Apps Script para la Gerencia de Compras: a partir de las cotizaciones de los proveedores arma el cuadro comparativo de ofertas, que antes se hacía a mano. Ya la usan personas de Compras.',
+c: 'Prácticas, Mejora Continua' },
+en: { t: 'OfertasX, automatic supplier quote comparison',
+p: 'Google Sheets and Apps Script tool for the Purchasing department: it builds the quote comparison table from supplier quotes, a job that used to be done by hand. Purchasing staff already use it.',
+c: 'Internship, Continuous Improvement' },
+tags: ['Apps Script', 'Google Sheets', 'Automatización'] },
+{ a: 'isa', d: [2026, 10], m: 'ind',
+es: { t: 'Verificador de facturas contra órdenes de compra',
+p: 'Hoja con Apps Script que lee del correo, con un botón, las facturas y órdenes de compra en PDF y comprueba la razón social, el RUC y que el total coincida al centavo, marcando cada caso como "verificado" o "revisar". Avisa de facturas duplicadas, revisa varias a la vez y suma los precios unitarios. Ya está en uso en Compras.',
+c: 'Prácticas, Mejora Continua' },
+en: { t: 'Invoice checker against purchase orders',
+p: 'Apps Script sheet that pulls invoices and purchase orders as PDFs from email with one button and checks the company name, tax ID and that the total matches to the cent, flagging each case as "verified" or "review". It warns about duplicate invoices, checks several at once and adds up unit prices. Already in use in Purchasing.',
+c: 'Internship, Continuous Improvement' },
+tags: ['Apps Script', 'Gmail', 'PDF'] },
+{ a: 'isa', d: [2026, 10], m: 'ind', now: 1,
+es: { t: 'Pide Ya ISA, solicitudes de transporte de personal',
+p: 'Prototipo para pedir transporte por área, empezando por Establecimiento del Cultivo: formulario, correo al aprobador con botones para aprobar o denegar y base de datos en Google Sheets para la trazabilidad de cada solicitud.',
+c: 'Prácticas, Mejora Continua' },
+en: { t: 'Pide Ya ISA, staff transport requests',
+p: 'Prototype for requesting transport by area, starting with Crop Establishment: a form, an email to the approver with approve or deny buttons, and a Google Sheets database that tracks every request.',
+c: 'Internship, Continuous Improvement' },
+tags: ['Apps Script', 'Flujo de aprobación', 'Google Sheets'] },
+{ a: 'isa', d: [2026, 10], m: 'ind', now: 1,
+es: { t: 'Formulario de solicitud de reclutamiento',
+p: 'Formulario de solicitud de personal con flujo de aprobación por correo y base de datos de control en Google Sheets, organizado en una carpeta de Drive para entregarlo al área responsable.',
+c: 'Prácticas, Mejora Continua' },
+en: { t: 'Recruitment request form',
+p: 'Staff request form with an email approval flow and a Google Sheets control database, organized in a Drive folder for hand-off to the owning team.',
+c: 'Internship, Continuous Improvement' },
+tags: ['Apps Script', 'Formularios', 'Google Sheets'] },
+{ a: 'isa', d: [2026, 10], m: 'ind', now: 1,
+es: { t: 'Formularios digitales y reportes con fotos en ODK',
+p: 'Conversión de formatos en papel de la refinería a formularios XLSForm para ODK Central y generación de reportes con fotos a partir de los envíos exportados, como demostración para llevar el proceso a un servidor dentro de la red de la empresa.',
+c: 'Prácticas, Mejora Continua' },
+en: { t: 'Digital forms and photo reports with ODK',
+p: 'Turning the refinery’s paper forms into XLSForm forms for ODK Central and building photo reports from the exported submissions, as a demo for moving the process to a server inside the company network.',
+c: 'Internship, Continuous Improvement' },
+tags: ['ODK Central', 'XLSForm', 'Reportes / Reports'] }
+];
+var SKILLS = [
+{ es: 'Lenguajes', en: 'Languages', items: ['Python', 'C', 'Rust', 'JavaScript', 'Prolog', 'MATLAB', 'Ladder', 'SCL', 'HTML', 'CSS'] },
+{ es: 'Automatización y robótica', en: 'Automation & robotics', items: ['TIA Portal', 'Siemens S7-1200', 'HMI KTP700', 'Factory I/O', 'GRAFCET', 'SCADA', 'Denavit-Hartenberg'] },
+{ es: 'IoT y electrónica', en: 'IoT & electronics', items: ['Arduino', 'ESP32', 'MQTT', 'Node-RED', 'InfluxDB', 'Grafana', 'ThingSpeak', 'QGIS', 'ESP32-CAM', 'Adafruit IO', 'Proteus', 'Tinkercad'] },
+{ es: 'Redes y sistemas', en: 'Networks & systems', items: ['Cisco IOS', 'Packet Tracer', 'OSPF / BGP', 'VLAN', 'BIND / DNSSEC', 'Linux', 'mdadm', 'Nextcloud', 'SNMP', 'Nmap', 'Zephyr RTOS'] },
+{ es: 'Datos, IA y simulación', en: 'Data, AI & simulation', items: ['pandas', 'scikit-learn', 'OpenCV', 'YOLOv8', 'NumPy', 'Matplotlib', 'AnyLogic'] },
+{ es: 'Software', en: 'Software', items: ['Google Apps Script', 'ODK / XLSForm', 'Flask', 'REST API', 'Tkinter', 'MongoDB', 'MySQL', 'Git', 'GitHub', 'Requisitos / Requirements'] }
+];
+var T = {
+es: {
+by: 'por Eduardo Bermúdez', tabs: ['Sobre mí', 'Proyectos', 'Contacto'],
+whoEyebrow: 'Quién soy',
+role: 'Ingeniería en Cibernética Electrónica · Computer Science y software',
+bio: 'Convierto problemas concretos en herramientas que se usan. Me formé en Ingeniería en Cibernética Electrónica en la Universidad Tecnológica La Salle (ULSA), en León, y hoy hago mis prácticas en Mejora Continua del Ingenio San Antonio. Me muevo entre el software, la automatización, el hardware y las redes, y quiero seguir creciendo en computer science, datos e inteligencia artificial.',
+stats: ['proyectos', 'áreas', 'años de trabajos', 'Rally de Innovación'],
+awardT: '3.er lugar, categoría Impacto Social',
+awardD: 'Rally Latinoamericano de Innovación 2025, sede ULSA Nicaragua, con el equipo Sentinels. Se realizó en 9 países el 10 y 11 de octubre de 2025.',
+doT: 'Lo que hago',
+does: [
+['Construyo software', 'Herramientas, APIs y aplicaciones que resuelven un problema concreto, desde la idea hasta que la gente las usa a diario.', ['Python', 'Rust', 'JavaScript', 'C', 'Flask', 'Apps Script', 'SQL']],
+['Automatizo procesos', 'Desde líneas de producción con PLC hasta formularios y flujos de aprobación que eliminan trabajo manual.', ['TIA Portal', 'S7-1200', 'Factory I/O', 'Google Sheets', 'ODK']],
+['Conecto el mundo físico con los datos', 'Sensores, microcontroladores y visión por computadora que convierten lo que pasa en datos útiles.', ['ESP32', 'Arduino', 'MQTT', 'Node-RED', 'Grafana', 'OpenCV', 'YOLOv8', 'scikit-learn']],
+['Diseño redes y sistemas', 'Redes, servidores y seguridad para que todo lo demás funcione y esté protegido.', ['Cisco IOS', 'OSPF / BGP', 'Linux', 'DNS', 'RAID', '802.1X', 'Nmap']]
+],
+nowItems: [['Ahora', 'Pasante en Mejora Continua, Ingenio San Antonio', 'Área de Tecnologías Emergentes e IA.'],
+['Reconocimiento', '3.er lugar, categoría Impacto Social', 'Rally Latinoamericano de Innovación 2025, sede ULSA Nicaragua, equipo Sentinels.']],
+projLead: 'Una muestra de trabajos de la universidad y de mis prácticas. No es todo lo que he hecho: también desarrollo proyectos por mi cuenta.',
+expT: 'Experiencia',
+exp: [['2026 – hoy', 'Pasante en Mejora Continua, Ingenio San Antonio', 'Área de Tecnologías Emergentes e IA.']],
+eventsT: 'Ferias y eventos',
+events: [['ago 2026', 'ROBOTECH, EXPOINNOVA ULSA 2026', 'Participación con el robot de navegación para almacenes.'],
+['abr 2026', 'Feria ExpoDigital II', 'Participación con el sistema IoT de calidad del aire y ventilación.'],
+['oct 2025', 'Rally Latinoamericano de Innovación', '3.er lugar en Impacto Social, sede ULSA Nicaragua.'],
+['ago 2025', 'Visita de campo al Ingenio San Antonio', 'Telemetría de riego, estaciones meteorológicas IoT, sensores NIR y geomática en la agroindustria.'],
+['ago 2025', 'Visita técnica a la planta Margarita II', 'Instrumentación y control de una central termoeléctrica en Corinto, Chinandega.'],
+['feb 2023', 'Seminario de Seguridad Informática', 'ULSA, para la carrera de Ingeniería en Cibernética Electrónica.']],
+projEyebrow: 'Lo que he construido', projTitle: 'Proyectos', allEyebrow: 'Explorar por área',
+all: 'Todos', done: 'Completado', now: 'En curso', more: 'Ver detalle', less: 'Ocultar',
+contactEyebrow: 'Hablemos', contactTitle: 'Contacto',
+eduT: 'Formación', eduD: 'Ingeniería en Cibernética Electrónica, Universidad Tecnológica La Salle (ULSA), León, Nicaragua. 2021 a 2026.',
+reachT: 'Dónde encontrarme', reachD: 'Escríbeme al correo o búscame en LinkedIn como Eduardo Bermúdez. Estoy abierto a oportunidades en datos, inteligencia artificial, automatización y desarrollo de software.',
+months: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+},
+en: {
+by: 'by Eduardo Bermúdez', tabs: ['About', 'Projects', 'Contact'],
+whoEyebrow: 'Who I am',
+role: 'Electronic Cybernetics Engineering · Computer Science & software',
+bio: 'I turn concrete problems into tools people use. I studied Electronic Cybernetics Engineering at Universidad Tecnológica La Salle (ULSA) in León, Nicaragua, and I now intern in Continuous Improvement at Ingenio San Antonio. I work across software, automation, hardware and networks, and I want to keep growing in computer science, data and artificial intelligence.',
+stats: ['projects', 'areas', 'years of work', 'Innovation Rally'],
+awardT: '3rd place, Social Impact category',
+awardD: 'Latin American Innovation Rally 2025, ULSA Nicaragua site, with team Sentinels. Held in 9 countries on October 10 and 11, 2025.',
+doT: 'What I do',
+does: [
+['I build software', 'Tools, APIs and applications that solve a concrete problem, from the idea to people using them every day.', ['Python', 'Rust', 'JavaScript', 'C', 'Flask', 'Apps Script', 'SQL']],
+['I automate processes', 'From PLC production lines to forms and approval flows that remove manual work.', ['TIA Portal', 'S7-1200', 'Factory I/O', 'Google Sheets', 'ODK']],
+['I connect the physical world to data', 'Sensors, microcontrollers and computer vision that turn what happens into useful data.', ['ESP32', 'Arduino', 'MQTT', 'Node-RED', 'Grafana', 'OpenCV', 'YOLOv8', 'scikit-learn']],
+['I design networks and systems', 'Networks, servers and security so everything else works and stays protected.', ['Cisco IOS', 'OSPF / BGP', 'Linux', 'DNS', 'RAID', '802.1X', 'Nmap']]
+],
+nowItems: [['Now', 'Continuous Improvement intern, Ingenio San Antonio', 'Emerging Technologies & AI team.'],
+['Recognition', '3rd place, Social Impact category', 'Latin American Innovation Rally 2025, ULSA Nicaragua site, team Sentinels.']],
+projLead: 'A sample of my university and internship work. It is not everything I have done: I also build projects on my own.',
+expT: 'Experience',
+exp: [['2026 – now', 'Continuous Improvement intern, Ingenio San Antonio', 'Emerging Technologies & AI team.']],
+eventsT: 'Fairs and events',
+events: [['Aug 2026', 'ROBOTECH, EXPOINNOVA ULSA 2026', 'Took part with the warehouse navigation robot.'],
+['Apr 2026', 'ExpoDigital II fair', 'Took part with the IoT air quality and ventilation system.'],
+['Oct 2025', 'Latin American Innovation Rally', '3rd place in Social Impact, ULSA Nicaragua site.'],
+['Aug 2025', 'Field visit to Ingenio San Antonio', 'Irrigation telemetry, IoT weather stations, NIR sensors and geomatics in agribusiness.'],
+['Aug 2025', 'Site visit to the Margarita II plant', 'Instrumentation and control at a thermal power plant in Corinto, Chinandega.'],
+['Feb 2023', 'Information Security Seminar', 'ULSA, for the Electronic Cybernetics Engineering program.']],
+projEyebrow: 'What I have built', projTitle: 'Projects', allEyebrow: 'Browse by area',
+all: 'All', done: 'Completed', now: 'In progress', more: 'Show details', less: 'Hide',
+contactEyebrow: 'Let’s talk', contactTitle: 'Contact',
+eduT: 'Education', eduD: 'Electronic Cybernetics Engineering, Universidad Tecnológica La Salle (ULSA), León, Nicaragua. 2021 to 2026.',
+reachT: 'Where to find me', reachD: 'Email me or find me on LinkedIn as Eduardo Bermúdez. I am open to opportunities in data, artificial intelligence, automation and software development.',
+months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+}
+};
+var lang = 'es', area = 'all', view = 'sobre-mi', open = {};
+try { var sv = localStorage.getItem('eb-lang'); if (sv === 'en' || sv === 'es') lang = sv; } catch (e) {}
+var VIEWS = ['sobre-mi', 'proyectos', 'contacto'];
+function $(id) { return document.getElementById(id); }
+function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+function idxArea(k) { for (var i = 0; i < AREAS.length; i++) if (AREAS[i].k === k) return i; return 0; }
+function pad(n) { return n < 10 ? '0' + n : String(n); }
+function svg(k) {
+var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+s.setAttribute('viewBox', '0 0 100 100'); s.setAttribute('fill', 'none'); s.setAttribute('stroke', 'currentColor');
+s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round'); s.setAttribute('aria-hidden', 'true');
+s.innerHTML = GLYPH[k]; return s;
+}
+function dateText(d) { var t = T[lang]; return d[1] ? t.months[d[1] - 1] + ' ' + d[0] : String(d[0]); }
+function sorted(list) {
+return list.slice().sort(function (x, y) {
+var d = idxArea(x.a) - idxArea(y.a); if (d) return d;
+return (y.d[0] * 13 + (y.d[1] || 0)) - (x.d[0] * 13 + (x.d[1] || 0));
+});
+}
+function card(p, big) {
+var t = T[lang], c = p[lang], key = p.es.t;
+var a = AREAS[idxArea(p.a)];
+var art = el('article', 'card');
+var top = el('div', 'card-top');
+top.appendChild(el('span', 'code', pad(idxArea(p.a) + 1) + ' · ' + a[lang]));
+top.appendChild(svg(p.a));
+art.appendChild(top);
+var body = el('div', 'card-body');
+var head = el('div', 'card-head');
+head.appendChild(el('h3', null, c.t));
+top.appendChild(el('span', (p.m === 't3now' || p.now) ? 'pill now' : 'pill', (p.m === 't3now' || p.now) ? t.now : t.done));
+body.appendChild(head);
+var sh = SHORT[key];
+body.appendChild(el('p', 'short', sh ? sh[lang === 'es' ? 0 : 1] : c.p));
+var det = el('p', 'detail', c.p + (p.m ? ' ' + MODE[p.m][lang] + '.' : ''));
+det.hidden = !open[key];
+body.appendChild(det);
+var tags = el('ul', 'tags');
+p.tags.forEach(function (x) { tags.appendChild(el('li', null, x)); });
+body.appendChild(tags);
+var foot = el('div', 'card-foot');
+foot.appendChild(el('span', null, dateText(p.d) + ' · ' + c.c));
+var b = el('button', 'more', open[key] ? t.less : t.more); b.type = 'button';
+b.setAttribute('aria-expanded', String(!!open[key]));
+b.addEventListener('click', function () {
+open[key] = !open[key]; det.hidden = !open[key];
+b.textContent = open[key] ? t.less : t.more; b.setAttribute('aria-expanded', String(!!open[key]));
+});
+foot.appendChild(b);
+body.appendChild(foot);
+art.appendChild(body);
+return art;
+}
+function renderAbout() {
+var t = T[lang];
+$('who-eyebrow').textContent = t.whoEyebrow;
+$('role').textContent = t.role;
+$('bio').textContent = t.bio;
+$('do-t').textContent = t.doT;
+var dz = $('does'); dz.textContent = '';
+t.does.forEach(function (d, i) {
+var box = el('div', 'do'); box.appendChild(el('i', null, '0' + (i + 1)));
+box.appendChild(el('h3', null, d[0])); box.appendChild(el('p', null, d[1]));
+var ul = el('ul', 'tags'); d[2].forEach(function (x) { ul.appendChild(el('li', null, x)); });
+box.appendChild(ul); dz.appendChild(box);
+});
+var nw = $('now'); nw.textContent = '';
+t.nowItems.forEach(function (n) {
+var c = el('div'); c.appendChild(el('small', null, n[0])); c.appendChild(el('b', null, n[1])); c.appendChild(el('span', null, n[2])); nw.appendChild(c);
+});
+}
+function renderProjects() {
+var t = T[lang];
+$('proj-eyebrow').textContent = t.projEyebrow;
+$('proj-title').textContent = t.projTitle;
+$('all-eyebrow').textContent = t.allEyebrow;
+$('proj-lead').textContent = t.projLead;
+var f = $('featured'); f.textContent = '';
+FEAT.forEach(function (name) { var p = P.filter(function (x) { return x.es.t === name; })[0]; if (p) f.appendChild(card(p, true)); });
+var fl = $('filters'); fl.textContent = '';
+[{ k: 'all', label: t.all }].concat(AREAS.map(function (a) { return { k: a.k, label: a[lang] }; })).forEach(function (it) {
+var n = P.filter(function (p) { return it.k === 'all' || p.a === it.k; }).length;
+var b = el('button', null, it.label); b.type = 'button';
+b.setAttribute('aria-pressed', String(area === it.k));
+b.addEventListener('click', function () { area = it.k; renderProjects(); });
+fl.appendChild(b);
+});
+var g = $('grid'); g.textContent = '';
+sorted(P.filter(function (p) { return area === 'all' || p.a === area; })).forEach(function (p) { g.appendChild(card(p, false)); });
+}
+function renderContact() {
+var t = T[lang];
+$('contact-eyebrow').textContent = t.contactEyebrow;
+$('contact-title').textContent = t.contactTitle;
+$('edu-t').textContent = t.eduT; $('edu-d').textContent = t.eduD;
+$('reach-t').textContent = t.reachT; $('reach-d').textContent = t.reachD;
+}
+function renderChrome() {
+var t = T[lang];
+document.documentElement.lang = lang;
+$('by').textContent = t.by;
+VIEWS.forEach(function (v, i) {
+var b = $('tab-' + v); b.textContent = t.tabs[i];
+b.setAttribute('aria-selected', String(view === v));
+$('v-' + v).hidden = view !== v;
+});
+$('lang-es').setAttribute('aria-pressed', String(lang === 'es'));
+$('lang-en').setAttribute('aria-pressed', String(lang === 'en'));
+}
+function renderAll() { renderChrome(); renderAbout(); renderProjects(); renderContact(); }
+function fromHash() {
+var h = (location.hash || '').replace('#', '');
+view = VIEWS.indexOf(h) !== -1 ? h : 'sobre-mi';
+renderChrome();
+}
+VIEWS.forEach(function (v) {
+$('tab-' + v).addEventListener('click', function () {
+if (location.hash !== '#' + v) location.hash = v; else fromHash();
+});
+});
+window.addEventListener('hashchange', fromHash);
+function setLang(l) { lang = l; try { localStorage.setItem('eb-lang', l); } catch (e) {} renderAll(); }
+$('lang-es').addEventListener('click', function () { setLang('es'); });
+$('lang-en').addEventListener('click', function () { setLang('en'); });
+var h0 = (location.hash || '').replace('#', '');
+view = VIEWS.indexOf(h0) !== -1 ? h0 : 'sobre-mi';
+renderAll();
+})();
+</script>
+</body>
+</html>
