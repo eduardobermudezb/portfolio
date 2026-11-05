@@ -1,3 +1,3 @@
 # Portafolio
 
-Portafolio de proyectos de Eduardo Bermúdez: https://guayo03.github.io/portfolio/
+Portafolio de proyectos de Eduardo Bermúdez: https://eduardobermudezb.github.io/portfolio/
