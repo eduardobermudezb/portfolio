@@ -142,9 +142,15 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; padding
 .proj-lead { margin: -6px 0 26px; max-width: 62ch; color: var(--muted); font-size: 1rem; line-height: 1.6; }
 .mail { display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: .95rem; color: var(--copper); text-decoration: none; border-bottom: 1px solid rgba(142,201,245,.45); padding-bottom: 2px; word-break: break-all; }
 .mail:hover { border-bottom-color: var(--copper); }
+
+/* Fondo Galaxy */
+#galaxy { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; display: block; }
+.bar, footer { position: relative; z-index: 1; }
+main.frame { z-index: 1; background: rgba(17, 19, 23, .5); }
 </style>
 </head>
 <body>
+<canvas id="galaxy" aria-hidden="true"></canvas>
 <header class="bar">
 <div class="wrap">
 <a class="brand" href="#sobre-mi" aria-label="Eduardo Bermúdez">
@@ -917,6 +923,57 @@ $('lang-en').addEventListener('click', function () { setLang('en'); });
 var h0 = (location.hash || '').replace('#', '');
 view = VIEWS.indexOf(h0) !== -1 ? h0 : 'sobre-mi';
 renderAll();
+})();
+</script>
+<script>
+(function () {
+  var cv = document.getElementById('galaxy'); if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, t = 0, raf = 0;
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mx = 0, my = 0, ex = 0, ey = 0, stars = [], dust = [];
+  function build() {
+    var n = W < 700 ? 420 : 950; stars = []; dust = [];
+    for (var i = 0; i < n; i++) {
+      var arm = i % 2, r = Math.pow(Math.random(), .55);
+      var a = arm * Math.PI + r * 5.2 + (Math.random() - .5) * (0.35 + r * .6);
+      stars.push({ a: a, r: r, s: Math.random() * 1.6 + .45, p: Math.random() * 6.28, w: Math.random() });
+    }
+    var m = W < 700 ? 140 : 280;
+    for (var j = 0; j < m; j++) dust.push({ x: Math.random(), y: Math.random(), s: Math.random() * .9 + .3, p: Math.random() * 6.28 });
+  }
+  function size() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); build(); if (still) draw();
+  }
+  function draw() {
+    ex += (mx - ex) * .04; ey += (my - ey) * .04;
+    ctx.fillStyle = '#0A0B0D'; ctx.fillRect(0, 0, W, H);
+    var cx = W * .64 + ex * 28, cy = H * .36 + ey * 22, R = Math.max(W, H) * .52;
+    var g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * .55);
+    g.addColorStop(0, 'rgba(142,201,245,.30)'); g.addColorStop(.35, 'rgba(120,110,230,.12)'); g.addColorStop(1, 'rgba(10,11,13,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    for (var j = 0; j < dust.length; j++) {
+      var d = dust[j], tw = .5 + .5 * Math.sin(t * .02 + d.p);
+      ctx.fillStyle = 'rgba(200,215,240,' + (.12 + tw * .35) + ')';
+      ctx.fillRect(d.x * W - ex * 6, d.y * H - ey * 6, d.s, d.s);
+    }
+    var tilt = -.38, ct = Math.cos(tilt), st = Math.sin(tilt);
+    for (var i = 0; i < stars.length; i++) {
+      var s = stars[i], a = s.a + t * .00045 * (1.25 - s.r), rr = s.r * R;
+      var x = Math.cos(a) * rr, y = Math.sin(a) * rr * .42;
+      var px = cx + x * ct - y * st, py = cy + x * st + y * ct;
+      var tw2 = .55 + .45 * Math.sin(t * .045 + s.p), al = Math.min(1, (.4 + tw2 * .6) * (1 - s.r * .35));
+      ctx.fillStyle = 'rgba(' + (150 + s.w * 90 | 0) + ',' + (190 + s.w * 40 | 0) + ',255,' + al + ')';
+      ctx.fillRect(px, py, s.s, s.s);
+    }
+  }
+  function loop() { t++; draw(); raf = requestAnimationFrame(loop); }
+  addEventListener('resize', size);
+  addEventListener('mousemove', function (e) { mx = e.clientX / W - .5; my = e.clientY / H - .5; }, { passive: true });
+  document.addEventListener('visibilitychange', function () {
+    if (still) return; if (document.hidden) cancelAnimationFrame(raf); else loop();
+  });
+  size(); if (!still) loop();
 })();
 </script>
 </body>
